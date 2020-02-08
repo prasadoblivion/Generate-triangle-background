@@ -6,6 +6,7 @@
     padding: 1rem;
     background-color: #eeeeee;
     width: 350px;
+    flex: 0 0 350px;
     height: 100vh;
     overflow: auto;
     box-shadow: 1px 0px 5px rgba(0, 0, 0, 0.25);
@@ -27,15 +28,16 @@
       flex: 0 0 100%;
       min-width: 100%;
       width: 100% !important;
-      height: 50vh !important;
     }
 
     > .sidebar {
       order: 2;
+      height: 70vh !important;
     }
 
     > .app-op-preview {
       order: 1;
+      height: 30vh !important;
     }
   }
 }

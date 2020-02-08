@@ -4,6 +4,11 @@ import { Accordion, Card } from "react-bootstrap";
 import "./sidebar.scss";
 
 class Sidebar extends Component {
+  state = {
+    colorBrewerToggleStatus: true,
+    customToggleStatus: false
+  };
+
   handleColorBrewerPalletClick = palletValue => {
     this.props.onColorBrewerPalletSelected(palletValue);
   };
@@ -54,6 +59,54 @@ class Sidebar extends Component {
     this.props.onRandomizeBtnClick([pallet, variance, cell_size]);
   };
 
+  handleColorBrewerTabClicked = () => {
+    if (this.state.colorBrewerToggleStatus) {
+      this.setState({ colorBrewerToggleStatus: false });
+    } else {
+      this.setState({ colorBrewerToggleStatus: true });
+      this.setState({ customToggleStatus: false });
+    }
+  };
+
+  handleCustomTabClicked = () => {
+    if (this.state.customToggleStatus) {
+      this.setState({ customToggleStatus: false });
+    } else {
+      this.setState({ customToggleStatus: true });
+      this.setState({ colorBrewerToggleStatus: false });
+    }
+  };
+
+  handleCustomColorPalletSaveBtnClick = () => {
+    let customColorPallet = [];
+    const customColorPalletInputEle = document.querySelectorAll('[data-custom-color="custom-color-input"]');
+    customColorPalletInputEle.forEach((item, itemIndex) => {
+      customColorPallet.push(item.value);
+    });
+
+    this.props.saveCustomColorPallet(customColorPallet);
+  };
+
+  handleAddCustomColor = () => {
+    const newCustomColorPallet = [...this.props.customColorPallet];
+    if (newCustomColorPallet.length < 15) {
+      newCustomColorPallet.push("#28a745");
+      this.props.updateCustomColorPallet(newCustomColorPallet);
+    } else {
+      alert("Sorry, Cannot add more than 15 colors.");
+    }
+  };
+
+  handleRemoveCustomColor = () => {
+    const newCustomColorPallet = [...this.props.customColorPallet];
+    if (newCustomColorPallet.length > 2) {
+      newCustomColorPallet.pop();
+      this.props.updateCustomColorPallet(newCustomColorPallet);
+    } else {
+      alert("Sorry, At-least 2 colors required.");
+    }
+  };
+
   render() {
     const ColorBrewerPallets = [];
     Object.entries(this.props.colorBrewerPallet).forEach(([item, index]) => {
@@ -76,6 +129,16 @@ class Sidebar extends Component {
       ColorBrewerPallets.push(ColorBrewerPalletsBtn);
     });
 
+    const customPalletColors = this.props.customColorPallet.map((color, colorIndex) => {
+      return <input type="color" defaultValue={color} data-custom-color="custom-color-input" key={colorIndex}></input>;
+    });
+
+    const customPallet = (
+      <div className="flex-box color-pallet-btn custom" id="customColorPalletcontainer">
+        {customPalletColors}
+      </div>
+    );
+
     return (
       <React.Fragment>
         <div className="flex-box dimension-container">
@@ -83,14 +146,14 @@ class Sidebar extends Component {
             <label htmlFor="width" className="small">
               Width
             </label>
-            <input type="number" className="form-control" id="width" aria-describedby="width" defaultValue={this.props.TrianglifyValues.width} onChange={this.handleWidthValueChange} />
+            <input type="number" className="form-control" id="width" aria-describedby="width" defaultValue={this.props.TrianglifyValues.width} onBlur={this.handleWidthValueChange} />
           </div>
 
           <div className="form-group">
             <label htmlFor="height" className="small">
               Height
             </label>
-            <input type="number" className="form-control" id="height" aria-describedby="height" defaultValue={this.props.TrianglifyValues.height} onChange={this.handleHeightValueChange} />
+            <input type="number" className="form-control" id="height" aria-describedby="height" defaultValue={this.props.TrianglifyValues.height} onBlur={this.handleHeightValueChange} />
           </div>
         </div>
 
@@ -146,24 +209,45 @@ class Sidebar extends Component {
           </div>
         </div>
 
+        <br />
+
         <div>
           <span className="span-label small">Color Pallet</span>
 
           <Accordion defaultActiveKey="0">
             <Card>
-              <Accordion.Toggle as={Card.Header} eventKey="0">
-                Colorbrewer
-              </Accordion.Toggle>
+              <div className="flex-box">
+                <Accordion.Toggle as={Card.Header} eventKey="0" onClick={this.handleColorBrewerTabClicked} className={this.state.colorBrewerToggleStatus === true ? "active" : ""}>
+                  Colorbrewer
+                </Accordion.Toggle>
+                <Accordion.Toggle as={Card.Header} eventKey="1" onClick={this.handleCustomTabClicked} className={this.state.customToggleStatus === true ? "active" : ""}>
+                  Custom
+                </Accordion.Toggle>
+              </div>
+
               <Accordion.Collapse eventKey="0">
                 <Card.Body>{ColorBrewerPallets}</Card.Body>
               </Accordion.Collapse>
             </Card>
             <Card>
-              <Accordion.Toggle as={Card.Header} eventKey="1">
-                Custom
-              </Accordion.Toggle>
               <Accordion.Collapse eventKey="1">
-                <Card.Body>Hello! I'm another body</Card.Body>
+                <Card.Body>
+                  {customPallet}
+                  <br />
+                  <div className="text-center">
+                    <button className="btn btn-secondary add-remove-btn" title="Add color" aria-label="Add color" onClick={this.handleAddCustomColor}>
+                      +
+                    </button>
+
+                    <button className="btn btn-success" title="Save custom color pallet" aria-label="Save custom color pallet" onClick={this.handleCustomColorPalletSaveBtnClick}>
+                      Save
+                    </button>
+
+                    <button className="btn btn-secondary add-remove-btn" title="Remove color" aria-label="Remove color" onClick={this.handleRemoveCustomColor}>
+                      -
+                    </button>
+                  </div>
+                </Card.Body>
               </Accordion.Collapse>
             </Card>
           </Accordion>
@@ -176,7 +260,8 @@ class Sidebar extends Component {
 const mapStateToProps = state => {
   return {
     colorBrewerPallet: state[0].colorBrewerPallets,
-    TrianglifyValues: state[0].TrianglifyValues
+    TrianglifyValues: state[0].TrianglifyValues,
+    customColorPallet: state[0].customColorPallet
   };
 };
 
@@ -199,6 +284,12 @@ const mapDispatchToProps = dispatch => {
     },
     onColorBrewerPalletSelected: inputVal => {
       dispatch({ type: "COLORBREWER_PALLET_SELECTED", payload: inputVal });
+    },
+    saveCustomColorPallet: inputVal => {
+      dispatch({ type: "SAVE_CUSTOM_COLOR_PALLET", payload: inputVal });
+    },
+    updateCustomColorPallet: inputVal => {
+      dispatch({ type: "UPDATE_CUSTOM_COLOR_PALLET", payload: inputVal });
     }
   };
 };
