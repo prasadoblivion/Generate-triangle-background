@@ -25,24 +25,33 @@ class Sidebar extends Component {
   };
 
   handleRandomizeButtonClicked = () => {
-    let pallet = ["#f7fcfd", "#e5f5f9", "#ccece6", "#99d8c9", "#66c2a4", "#41ae76", "#238b45", "#006d2c", "#00441b"];
-    const variance = Math.random();
-    const cell_size = Math.random() * 250 + 60;
+    let pallet = this.props.TrianglifyValues.x_colors;
+    let variance = this.props.TrianglifyValues.variance;
+    let cell_size = this.props.TrianglifyValues.cell_size;
 
-    const randomValue = Math.floor(Math.random() * 26);
+    if (document.getElementById("needRandomVariance").checked) {
+      variance = Math.random();
+      document.getElementById("variance").value = variance;
+    }
 
-    let count = 1;
-    Object.entries(this.props.colorBrewerPallet).forEach(([item, index]) => {
-      if (count === randomValue) {
-        pallet = this.props.colorBrewerPallet[item];
-      }
-      count++;
-    });
+    if (document.getElementById("needRandomCellSize").checked) {
+      cell_size = Math.random() * 250 + 60;
+      document.getElementById("cell_size").value = cell_size;
+    }
+
+    if (document.getElementById("needRandomColors").checked) {
+      const randomValue = Math.floor(Math.random() * 26);
+
+      let count = 1;
+      Object.entries(this.props.colorBrewerPallet).forEach(([item, index]) => {
+        if (count === randomValue) {
+          pallet = this.props.colorBrewerPallet[item];
+        }
+        count++;
+      });
+    }
 
     this.props.onRandomizeBtnClick([pallet, variance, cell_size]);
-
-    document.getElementById("variance").value = variance;
-    document.getElementById("cell_size").value = cell_size;
   };
 
   render() {
@@ -103,6 +112,30 @@ class Sidebar extends Component {
           </div>
         </div>
 
+        <br />
+
+        <div className="form-check form-check-inline">
+          <input className="form-check-input" type="checkbox" id="needRandomVariance" name="needRandomVariance" defaultChecked />
+          <label className="form-check-label small" htmlFor="needRandomVariance">
+            Use random variance while randomizing
+          </label>
+        </div>
+
+        <div className="form-check form-check-inline">
+          <input className="form-check-input" type="checkbox" id="needRandomCellSize" name="needRandomCellSize" defaultChecked />
+          <label className="form-check-label small" htmlFor="needRandomCellSize">
+            Use random cell size while randomizing
+          </label>
+        </div>
+
+        <div className="form-check form-check-inline">
+          <input className="form-check-input" type="checkbox" id="needRandomColors" name="needRandomColors" defaultChecked />
+          <label className="form-check-label small" htmlFor="needRandomColors">
+            Use random colors while randomizing
+          </label>
+        </div>
+
+        <br />
         <br />
 
         <div>
