@@ -1,0 +1,41 @@
+// @import url("https://fonts.googleapis.com/css?family=Roboto+Slab:200,400,700&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Montserrat:300,400,700&display=swap");
+
+body {
+  margin: 0;
+  // font-family: "Roboto Slab", serif;
+  font-family: "Montserrat", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  > * {
+    // font-family: "Roboto Slab", serif;
+    font-family: "Montserrat", sans-serif;
+  }
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+.btn {
+  border-radius: 0 !important;
+}
+
+.flex-box {
+  display: flex;
+  flex-direction: row;
+
+  @media (max-width: 768px) {
+    flex-wrap: wrap;
+
+    > div {
+      flex: 0 0 100%;
+    }
+  }
+}
+
+.span-label {
+  margin-bottom: 0.5rem;
+  display: block;
+}
