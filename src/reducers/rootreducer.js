@@ -24,7 +24,7 @@ const initialState = [
       color_function: false,
       stroke_width: 1.51,
       width: 1920,
-      height: 1020,
+      height: 1080,
       seed: null
     },
     customColorPallet: ["#f50057", "#1a237e"]
