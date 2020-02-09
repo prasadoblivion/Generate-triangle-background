@@ -12,14 +12,15 @@ class Topnav extends Component {
         </span>
 
         <div className="navbar-nav ml-auto top-nav-link">
-          <span className="btn nav-item inline-flex">
-            <span role="img" aria-label="Powered by" title="Powered by" className="d-md-none">
-              💪 :
-            </span>
-            <span className="d-none d-md-block">Powered by :</span>
+          <span className="btn nav-item inline-flex powered-by" role="img" aria-label="Powered by" title="Powered by">
+            💪
           </span>
           <a className="nav-item nav-link active" href="https://github.com/qrohlf/trianglify" target="_blank" rel="noopener noreferrer">
             Trianglify
+          </a>
+
+          <a className="nav-item nav-link active about-me" href="https://prasaddasanatti.tech/" target="_blank" rel="noopener noreferrer">
+            About
           </a>
         </div>
       </nav>

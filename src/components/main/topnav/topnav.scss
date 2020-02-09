@@ -6,10 +6,16 @@ nav.bg-light {
     display: flex;
     align-items: center;
     justify-content: center;
+    font-weight: bold;
+    text-transform: uppercase;
 
     > img {
       width: 25px;
       margin-right: 0.5rem;
+    }
+
+    @media (max-width: 360px) {
+      font-size: 1rem !important;
     }
   }
 }
@@ -19,5 +25,19 @@ nav.bg-light {
 
   .nav-item.nav-link {
     font-weight: bold;
+
+    &:hover,
+    &:focus {
+      text-decoration: underline;
+    }
   }
+}
+
+.about-me {
+  color: #dc3545 !important;
+  margin-left: 1rem;
+}
+
+.powered-by {
+  padding-right: 0px;
 }

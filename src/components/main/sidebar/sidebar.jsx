@@ -14,11 +14,29 @@ class Sidebar extends Component {
   };
 
   handleWidthValueChange = () => {
-    this.props.onWidthValueChange(document.getElementById("width").value);
+    const widthEle = document.getElementById("width");
+
+    if (widthEle.value > 0 && widthEle.value !== null && widthEle.value !== undefined && !isNaN(widthEle.value)) {
+      if (this.props.TrianglifyValues.width.toString() !== widthEle.value.toString()) {
+        this.props.onWidthValueChange(widthEle.value);
+      }
+    } else {
+      alert("Width cannot be less than 1. Resetting to default.");
+      widthEle.value = 1920;
+    }
   };
 
   handleHeightValueChange = () => {
-    this.props.onHeightValueChange(document.getElementById("height").value);
+    const heightEle = document.getElementById("height");
+
+    if (heightEle.value > 0 && heightEle.value !== null && heightEle.value !== undefined && !isNaN(heightEle.value)) {
+      if (this.props.TrianglifyValues.height.toString() !== heightEle.value.toString()) {
+        this.props.onHeightValueChange(heightEle.value);
+      }
+    } else {
+      alert("Height cannot be less than 1. Resetting to default.");
+      heightEle.value = 1080;
+    }
   };
 
   handleVarianceValueChange = () => {

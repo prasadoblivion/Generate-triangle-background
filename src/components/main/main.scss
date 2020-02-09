@@ -24,8 +24,8 @@
     max-height: calc(100vh - 56px);
 
     > div {
-      flex: 0 0 100%;
-      min-width: 100%;
+      flex: 0 0 100% !important;
+      min-width: 100% !important;
       width: 100% !important;
     }
 

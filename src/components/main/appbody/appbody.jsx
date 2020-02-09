@@ -1,20 +1,23 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Canvasele from "./canvas";
-import { Modal, Button } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import Trianglify from "trianglify";
 import "./appbody.scss";
 
 class Appbody extends Component {
   state = {
-    modalToggleStatus: false
+    modalToggleStatus: false,
+    pngURI: Trianglify(this.props.TrianglifyValues).png()
   };
 
   toggleModal = () => {
+    const tempPng = Trianglify(this.props.TrianglifyValues).png();
+
     if (this.state.modalToggleStatus) {
       this.setState({ modalToggleStatus: false });
     } else {
-      this.setState({ modalToggleStatus: true });
+      this.setState({ modalToggleStatus: true, pngURI: tempPng });
     }
   };
 
@@ -40,7 +43,7 @@ class Appbody extends Component {
   };
 
   handleDownloadPNGBtnClick = () => {
-    var pngURI = Trianglify(this.props.TrianglifyValues).png();
+    const pngURI = Trianglify(this.props.TrianglifyValues).png();
     document.getElementById("downloadPNGBtn").setAttribute("href", pngURI);
 
     // var data = pngURI.substr(pngURI.indexOf('base64') + 7);
@@ -52,7 +55,7 @@ class Appbody extends Component {
         <div className="previewContainer">
           <Canvasele previewValues={this.props.TrianglifyValues} />
 
-          <button className="btn btn-dark export-btn" onClick={this.toggleModal}>
+          <button className="btn btn-outline-danger export-btn" onClick={this.toggleModal}>
             Export
           </button>
         </div>
@@ -62,20 +65,19 @@ class Appbody extends Component {
             <Modal.Title>Export</Modal.Title>
           </Modal.Header>
           <Modal.Body>
+            <div className="export-preview-img-container">
+              <img src={this.state.pngURI} alt="export preview" className="export-preview-img" />
+            </div>
             <div className="flex-box download-section">
               <div>
                 <a href="#preview" target="_blank" className="btn btn-outline-danger" id="downloadSVGBtn" download onClick={this.handleDownloadSVGBtnClick}>
-                  SVG
+                  Export as SVG
                 </a>
-                <br />
-                Export as SVG
               </div>
               <div>
                 <a href="#preview" target="_blank" className="btn btn-outline-danger" id="downloadPNGBtn" download onClick={this.handleDownloadPNGBtnClick}>
-                  PNG
+                  Export as PNG
                 </a>
-                <br />
-                Export as PNG
               </div>
             </div>
           </Modal.Body>
