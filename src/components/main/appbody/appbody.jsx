@@ -19,7 +19,7 @@ class Appbody extends Component {
   };
 
   handleDownloadSVGBtnClick = () => {
-    const pattern = Trianglify(this.props.previewValues);
+    const pattern = Trianglify(this.props.TrianglifyValues);
     const svg = pattern.svg({ includeNamespace: true });
 
     const serializer = new XMLSerializer();
@@ -40,7 +40,7 @@ class Appbody extends Component {
   };
 
   handleDownloadPNGBtnClick = () => {
-    var pngURI = Trianglify(this.props.previewValues).png();
+    var pngURI = Trianglify(this.props.TrianglifyValues).png();
     document.getElementById("downloadPNGBtn").setAttribute("href", pngURI);
 
     // var data = pngURI.substr(pngURI.indexOf('base64') + 7);

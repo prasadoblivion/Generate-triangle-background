@@ -198,8 +198,9 @@ class Sidebar extends Component {
           </label>
         </div>
 
-        <br />
-        <br />
+        <div>
+          <br />
+        </div>
 
         <div>
           <div className="form-group text-center">
@@ -209,7 +210,9 @@ class Sidebar extends Component {
           </div>
         </div>
 
-        <br />
+        <div className="d-none d-md-block d-lg-block">
+          <br />
+        </div>
 
         <div>
           <span className="span-label small">Color Pallet</span>
