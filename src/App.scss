@@ -1,9 +1,11 @@
 .add-to-home-prompt {
   z-index: 9999999;
   position: absolute;
-  bottom: 0%;
+  top: 100%;
+  bottom: unset;
   width: 100%;
   max-width: 100%;
+  transition: all 0.25s ease-in-out;
 
   .toast-header {
     padding: 1rem;
@@ -19,12 +21,26 @@
     padding-right: 2rem;
     background-color: #fffefe;
   }
-}
 
-.fade:not(.show) {
-  display: none !important;
-}
+  &.fade:not(.show) {
+    display: none !important;
+  }
 
-.toast.show {
-  display: block !important;
+  &.show {
+    display: block !important;
+    top: unset;
+    bottom: 0%;
+  }
+
+  @media (min-width: 769px) {
+    display: none !important;
+    top: 100% !important;
+    bottom: unset;
+
+    &.show {
+      display: none !important;
+      top: 100% !important;
+      bottom: unset;
+    }
+  }
 }

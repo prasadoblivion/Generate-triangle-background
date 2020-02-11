@@ -15,7 +15,7 @@ const initialState = [
   {
     colorBrewerPallets: Trianglify.colorbrewer,
     TrianglifyValues: {
-      cell_size: 75,
+      cell_size: 150,
       variance: 0.75,
       x_colors: pallet,
       y_colors: "match_x",
