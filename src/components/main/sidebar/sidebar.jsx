@@ -10,7 +10,11 @@ class Sidebar extends Component {
   };
 
   handleColorBrewerPalletClick = palletValue => {
-    this.props.onColorBrewerPalletSelected(palletValue);
+    if (document.getElementById("copyColorbrewerPalletToCustom").checked) {
+      this.props.onColorBrewerPalletSelectedWithCustom(palletValue);
+    } else {
+      this.props.onColorBrewerPalletSelected(palletValue);
+    }
   };
 
   handleWidthValueChange = () => {
@@ -95,6 +99,11 @@ class Sidebar extends Component {
     }
   };
 
+  handleColorFlipBtnClick = () => {
+    const oldPallet = [...this.props.customColorPallet];
+    this.props.updateCustomColorPallet(oldPallet.reverse());
+  };
+
   handleCustomColorPalletSaveBtnClick = () => {
     let customColorPallet = [];
     const customColorPalletInputEle = document.querySelectorAll('[data-custom-color="custom-color-input"]');
@@ -148,7 +157,7 @@ class Sidebar extends Component {
     });
 
     const customPalletColors = this.props.customColorPallet.map((color, colorIndex) => {
-      return <input type="color" defaultValue={color} data-custom-color="custom-color-input" key={colorIndex}></input>;
+      return <input type="color" defaultValue={color} data-custom-color="custom-color-input" key={color + colorIndex}></input>;
     });
 
     const customPallet = (
@@ -247,16 +256,31 @@ class Sidebar extends Component {
               </div>
 
               <Accordion.Collapse eventKey="0">
-                <Card.Body>{ColorBrewerPallets}</Card.Body>
+                <Card.Body>
+                  <div className="form-check form-check-inline" style={{ marginBottom: "1rem" }}>
+                    <input className="form-check-input" type="checkbox" id="copyColorbrewerPalletToCustom" name="copyColorbrewerPalletToCustom" />
+                    <label className="form-check-label small" htmlFor="copyColorbrewerPalletToCustom">
+                      Copy selection to custom pallet?
+                    </label>
+                  </div>
+
+                  {ColorBrewerPallets}
+                </Card.Body>
               </Accordion.Collapse>
             </Card>
             <Card>
               <Accordion.Collapse eventKey="1">
                 <Card.Body>
                   {customPallet}
+
+                  <div className="text-center">
+                    <button className="btn btn-outline-danger btn-sm" onClick={this.handleColorFlipBtnClick}>
+                      Flip
+                    </button>
+                  </div>
                   <br />
                   <div className="text-center">
-                    <button className="btn btn-secondary add-remove-btn" title="Add color" aria-label="Add color" onClick={this.handleAddCustomColor}>
+                    <button className="btn btn-outline-secondary add-remove-btn" title="Add color" aria-label="Add color" onClick={this.handleAddCustomColor}>
                       +
                     </button>
 
@@ -264,7 +288,7 @@ class Sidebar extends Component {
                       Save
                     </button>
 
-                    <button className="btn btn-secondary add-remove-btn" title="Remove color" aria-label="Remove color" onClick={this.handleRemoveCustomColor}>
+                    <button className="btn btn-outline-secondary add-remove-btn" title="Remove color" aria-label="Remove color" onClick={this.handleRemoveCustomColor}>
                       -
                     </button>
                   </div>
@@ -305,6 +329,9 @@ const mapDispatchToProps = dispatch => {
     },
     onColorBrewerPalletSelected: inputVal => {
       dispatch({ type: "COLORBREWER_PALLET_SELECTED", payload: inputVal });
+    },
+    onColorBrewerPalletSelectedWithCustom: inputVal => {
+      dispatch({ type: "COLORBREWER_PALLET_SELECTED_WITH_CUSTOM", payload: inputVal });
     },
     saveCustomColorPallet: inputVal => {
       dispatch({ type: "SAVE_CUSTOM_COLOR_PALLET", payload: inputVal });

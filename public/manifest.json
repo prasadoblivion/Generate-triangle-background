@@ -3,14 +3,14 @@
   "name": "Triangle - Low poly pattern generator",
   "icons": [
     {
-      "src": "logo.png",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/png"
+      "src": "icons-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
     },
     {
-      "src": "logo.png",
+      "src": "icons-512.png",
       "type": "image/png",
-      "sizes": "267x225"
+      "sizes": "512x512"
     }
   ],
   "start_url": ".",

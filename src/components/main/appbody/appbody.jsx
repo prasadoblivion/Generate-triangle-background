@@ -2,17 +2,16 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import Canvasele from "./canvas";
 import { Modal } from "react-bootstrap";
-import Trianglify from "trianglify";
 import "./appbody.scss";
 
 class Appbody extends Component {
   state = {
     modalToggleStatus: false,
-    pngURI: Trianglify(this.props.TrianglifyValues).png()
+    pngURI: null
   };
 
   toggleModal = () => {
-    const tempPng = Trianglify(this.props.TrianglifyValues).png();
+    const tempPng = this.props.TrianglifyOutput.png();
 
     if (this.state.modalToggleStatus) {
       this.setState({ modalToggleStatus: false });
@@ -22,8 +21,7 @@ class Appbody extends Component {
   };
 
   handleDownloadSVGBtnClick = () => {
-    const pattern = Trianglify(this.props.TrianglifyValues);
-    const svg = pattern.svg({ includeNamespace: true });
+    const svg = this.props.TrianglifyOutput.svg({ includeNamespace: true });
 
     const serializer = new XMLSerializer();
     let source = serializer.serializeToString(svg);
@@ -43,10 +41,8 @@ class Appbody extends Component {
   };
 
   handleDownloadPNGBtnClick = () => {
-    const pngURI = Trianglify(this.props.TrianglifyValues).png();
+    const pngURI = this.props.TrianglifyOutput.png();
     document.getElementById("downloadPNGBtn").setAttribute("href", pngURI);
-
-    // var data = pngURI.substr(pngURI.indexOf('base64') + 7);
   };
 
   render() {
@@ -81,11 +77,6 @@ class Appbody extends Component {
               </div>
             </div>
           </Modal.Body>
-          {/* <Modal.Footer>
-            <Button variant="danger" onClick={this.toggleModal}>
-              Close
-            </Button>
-          </Modal.Footer> */}
         </Modal>
       </React.Fragment>
     );
@@ -94,7 +85,8 @@ class Appbody extends Component {
 
 const mapStateToProps = state => {
   return {
-    TrianglifyValues: state[0].TrianglifyValues
+    TrianglifyValues: state[0].TrianglifyValues,
+    TrianglifyOutput: state[0].TrianglifyOutput
   };
 };
 
