@@ -136,18 +136,19 @@ class Sidebar extends Component {
 
   render() {
     const ColorBrewerPallets = [];
-    Object.entries(this.props.colorBrewerPallet).forEach(([item, index]) => {
-      const colorPalletBtnBG = this.props.colorBrewerPallet[item].map((colorItem, colorIndex) => {
+    Object.entries(this.props.colorBrewerPallet).forEach(([key, itemValues]) => {
+      const colorPalletBtnBG = this.props.colorBrewerPallet[key].map((colorItem, colorIndex) => {
         return <span style={{ backgroundColor: colorItem }} key={colorIndex}></span>;
       });
 
       const ColorBrewerPalletsBtn = (
         <button
           onClick={() => {
-            this.handleColorBrewerPalletClick(this.props.colorBrewerPallet[item]);
+            this.handleColorBrewerPalletClick(this.props.colorBrewerPallet[key]);
           }}
-          key={index}
+          key={key}
           className="flex-box color-pallet-btn"
+          aria-label={"Color pallet: " + key}
         >
           {colorPalletBtnBG}
         </button>
