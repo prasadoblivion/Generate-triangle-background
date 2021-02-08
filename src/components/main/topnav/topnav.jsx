@@ -19,7 +19,7 @@ class Topnav extends Component {
             Trianglify
           </a>
 
-          <a className="nav-item nav-link active about-me" href="https://prasaddasanatti.tech/" target="_blank" rel="noopener noreferrer">
+          <a className="nav-item nav-link active about-me" href="https://prasaddasanatti.in/" target="_blank" rel="noopener noreferrer">
             About
           </a>
         </div>
